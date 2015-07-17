@@ -107,6 +107,31 @@
 - (instancetype)initWithImage:(UIImage *)image;
 
 /**
+Hides the share button.
+ */
+- (void)hideShareButton;
+
+/**
+Shows the share button.
+ */
+- (void)showShareButton;
+
+/**
+Hides the share button.
+ */
+- (void)hideAspectRatioButton;
+
+/**
+Shows the share button.
+ */
+- (void)showAspectRatioButton;
+
+/**
+Shows the share button.
+ */
+- (void)setAspectRatio;
+
+/**
  Play a custom animation of the target image zooming to its position in the crop controller while the background fades in.
  If any view configurations need to be done before the animation starts, please do them in `prepareForTransitionHandler`
  

@@ -306,14 +306,7 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
             return;
     }
     
-    if (self.cropView.cropBoxAspectRatioIsPortrait) {
-        CGFloat width = aspectRatio.width;
-        aspectRatio.width = aspectRatio.height;
-        aspectRatio.height = width;
-    }
-    
-    [self.cropView setAspectLockEnabledWithAspectRatio:aspectRatio animated:YES];
-    self.toolbar.clampButtonGlowing = YES;
+    setAspectRatio(aspectRatio);
 }
 
 - (void)rotateCropView
@@ -331,6 +324,33 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
 {
     self.toolbar.resetButtonEnabled = NO;
 }
+
+#pragma mark - View Changers -
+- (void)hideShareButton {
+}
+
+- (void)showShareButton {
+}
+
+- (void)hideAspectRatioButton {
+    [[self.toolbar.clampButton viewWithTag:1] setHidden:YES];
+}
+
+- (void)showAspectRatioButton {
+    [[self.toolbar.clampButton viewWithTag:1] setHidden:NO];
+}
+
+- (void)setAspectRatio(CGSize aspectRatio) {
+    if (self.cropView.cropBoxAspectRatioIsPortrait) {
+        CGFloat width = aspectRatio.width;
+        aspectRatio.width = aspectRatio.height;
+        aspectRatio.height = width;
+    }
+    
+    [self.cropView setAspectLockEnabledWithAspectRatio:aspectRatio animated:YES];
+    self.toolbar.clampButtonGlowing = YES;
+}
+
 
 #pragma mark - Presentation Handling -
 - (void)presentAnimatedFromParentViewController:(UIViewController *)viewController fromFrame:(CGRect)frame completion:(void (^)(void))completion
