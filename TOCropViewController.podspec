@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.summary  = 'A view controller that allows users to crop UIImage objects.'
   s.homepage = 'https://github.com/quinnbaetz/TOCropViewController'
   s.author   = 'Tim Oliver'
-  s.source   = { :git => 'https://github.com/quinnbaetz/TOCropViewController.git', :tag => 'hotfix-1.1' }
+  s.source   = { :git => 'https://github.com/quinnbaetz/TOCropViewController.git', :tag => 'hotfix-1.2' }
   s.platform = :ios, '7.0'
 
   s.source_files = 'TOCropViewController/**/*.{h,m}'
