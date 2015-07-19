@@ -120,6 +120,8 @@
     [self dismissViewControllerAnimated:YES completion:^{
         self.image = image;
         TOCropViewController *cropController = [[TOCropViewController alloc] initWithImage:image];
+        [cropController hideAspectRatioButton];
+        [cropController setAspectRatio:CGSizeMake(1.0f, 1.0f)];
         cropController.delegate = self;
         [self presentViewController:cropController animated:YES completion:nil];
     }];

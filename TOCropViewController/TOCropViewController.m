@@ -48,6 +48,9 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
 @property (nonatomic, strong) TOCropViewControllerTransitioning *transitionController;
 @property (nonatomic, strong) UIPopoverController *activityPopoverController;
 @property (nonatomic, assign) BOOL inTransition;
+@property (nonatomic, assign) BOOL shouldHideAspectRatioButton;
+@property (nonatomic, assign) CGSize manualAspectRatio;
+
 
 /* Button callback */
 - (void)cancelButtonTapped;
@@ -74,6 +77,8 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
         _image = image;
     }
     
+    self.shouldHideAspectRatioButton = NO;
+    
     return self;
 }
 
@@ -89,6 +94,7 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
     [self.view addSubview:self.cropView];
     
     self.toolbar = [[TOCropToolbar alloc] initWithFrame:CGRectZero];
+
     self.toolbar.frame = [self frameForToolBarWithVerticalLayout:CGRectGetWidth(self.view.bounds) < CGRectGetHeight(self.view.bounds)];
     [self.view addSubview:self.toolbar];
     
@@ -99,9 +105,15 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
     self.toolbar.clampButtonTapped =    ^{ [weakSelf showAspectRatioDialog]; };
     self.toolbar.rotateButtonTapped =   ^{ [weakSelf rotateCropView]; };
     
-    self.transitioningDelegate = self;
+    if(self.shouldHideAspectRatioButton){
+        [[self toolbar] hideAspectRatioButton];
+    }
     
+    
+    self.transitioningDelegate = self;
     self.view.backgroundColor = self.cropView.backgroundColor;
+    
+    [self setAspectRatio:[self manualAspectRatio]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -242,6 +254,7 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
     [self.cropView resetLayoutToDefaultAnimated:YES];
     self.cropView.aspectLockEnabled = NO;
     self.toolbar.clampButtonGlowing = NO;
+    [self setAspectRatio:[self manualAspectRatio]];
 }
 
 #pragma mark - Aspect Ratio Handling -
@@ -306,7 +319,8 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
             return;
     }
     
-    setAspectRatio(aspectRatio);
+    [self setAspectRatio:aspectRatio];
+    
 }
 
 - (void)rotateCropView
@@ -333,14 +347,16 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
 }
 
 - (void)hideAspectRatioButton {
-    [[self.toolbar.clampButton viewWithTag:1] setHidden:YES];
+    self.shouldHideAspectRatioButton = YES;
+    [[self toolbar] hideAspectRatioButton];
 }
 
 - (void)showAspectRatioButton {
-    [[self.toolbar.clampButton viewWithTag:1] setHidden:NO];
+    self.shouldHideAspectRatioButton = NO;
+    [[self toolbar] showAspectRatioButton];
 }
 
-- (void)setAspectRatio(CGSize aspectRatio) {
+- (void)setAspectRatio:(CGSize) aspectRatio {
     if (self.cropView.cropBoxAspectRatioIsPortrait) {
         CGFloat width = aspectRatio.width;
         aspectRatio.width = aspectRatio.height;
@@ -349,6 +365,7 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
     
     [self.cropView setAspectLockEnabledWithAspectRatio:aspectRatio animated:YES];
     self.toolbar.clampButtonGlowing = YES;
+    self.manualAspectRatio = aspectRatio;
 }
 
 

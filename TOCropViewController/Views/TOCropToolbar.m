@@ -91,6 +91,11 @@
     [_clampButton setImage:[TOCropToolbar clampImage] forState:UIControlStateNormal];
     [_clampButton addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_clampButton];
+    //if(self.shouldHideClampButton){
+    //_clampButton.hidden = YES;
+    [_clampButton setHidden:YES];
+    //}
+    
     
     _rotateButton = [UIButton buttonWithType:UIButtonTypeSystem];
     _rotateButton.contentMode = UIViewContentModeCenter;
@@ -251,6 +256,22 @@
         return self.doneIconButton.frame;
     
     return self.doneTextButton.frame;
+}
+
+#pragma mark - View Changers -
+- (void)hideShareButton {
+}
+
+- (void)showShareButton {
+}
+
+- (void)hideAspectRatioButton {
+    [_clampButton setHidden:YES];
+}
+
+- (void)showAspectRatioButton {
+    [[self.clampButton viewWithTag:1] setHidden:NO];
+    self.shouldHideClampButton = NO;
 }
 
 #pragma mark - Image Generation -

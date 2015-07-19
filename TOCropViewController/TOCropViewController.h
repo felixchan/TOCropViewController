@@ -129,7 +129,7 @@ Shows the share button.
 /**
 Shows the share button.
  */
-- (void)setAspectRatio;
+- (void)setAspectRatio:(CGSize) aspectRatio;
 
 /**
  Play a custom animation of the target image zooming to its position in the crop controller while the background fades in.

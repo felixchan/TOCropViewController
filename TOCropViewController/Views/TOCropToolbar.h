@@ -34,6 +34,7 @@
 /* Aspect ratio button settings */
 @property (nonatomic, assign) BOOL clampButtonGlowing;
 @property (nonatomic, readonly) CGRect clampButtonFrame;
+@property (nonatomic, assign) BOOL shouldHideClampButton;
 
 /* Disable the rotate button */
 @property (nonatomic, assign) BOOL rotateButtonHidden;
@@ -43,5 +44,26 @@
 
 /* Done button frame for popover controllers */
 @property (nonatomic, readonly) CGRect doneButtonFrame;
+
+/**
+ Hides the share button.
+ */
+- (void)hideShareButton;
+
+/**
+ Shows the share button.
+ */
+- (void)showShareButton;
+
+/**
+ Hides the share button.
+ */
+- (void)hideAspectRatioButton;
+
+/**
+ Shows the share button.
+ */
+- (void)showAspectRatioButton;
+
 
 @end
