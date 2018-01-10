@@ -85,17 +85,20 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    BOOL landscapeLayout = CGRectGetWidth(self.view.frame) > CGRectGetHeight(self.view.frame);
+    
+    CGSize viewSize = self.view.frame.size;
+    BOOL landscapeLayout = viewSize.width > viewSize.height;
     self.cropView = [[TOCropView alloc] initWithImage:self.image];
-    self.cropView.frame = (CGRect){(landscapeLayout ? 44.0f : 0.0f),0,(CGRectGetWidth(self.view.bounds) - (landscapeLayout ? 44.0f : 0.0f)), (CGRectGetHeight(self.view.bounds)-(landscapeLayout ? 0.0f : 44.0f)) };
+    self.cropView.frame = landscapeLayout
+                        ? CGRectMake(44, 0, viewSize.width - 44, viewSize.height)
+                        : CGRectMake(0, 0, viewSize.width, viewSize.height - 44);
     self.cropView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.cropView.delegate = self;
     [self.view addSubview:self.cropView];
     
     self.toolbar = [[TOCropToolbar alloc] initWithFrame:CGRectZero];
 
-    self.toolbar.frame = [self frameForToolBarWithVerticalLayout:CGRectGetWidth(self.view.bounds) < CGRectGetHeight(self.view.bounds)];
+    self.toolbar.frame = [self frameForToolBarWithVerticalLayout:!landscapeLayout];
     [self.view addSubview:self.toolbar];
     
     __weak typeof(self) weakSelf = self;
@@ -150,6 +153,12 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
     [self setNeedsStatusBarAppearanceUpdate];
 }
 
+- (void)viewSafeAreaInsetsDidChange
+{
+    [super viewSafeAreaInsetsDidChange];
+    [self.view setNeedsLayout];
+}
+
 #pragma mark - Status Bar -
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
@@ -174,6 +183,8 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
     else {
         frame.origin.x = 0.0f;
         frame.origin.y = CGRectGetHeight(self.view.bounds) - 44.0f;
+        if (@available(iOS 11.0, *))
+            frame.origin.y -= self.view.safeAreaInsets.bottom;
         frame.size.width = CGRectGetWidth(self.view.bounds);
         frame.size.height = 44.0f;
     }
@@ -198,11 +209,21 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
         frame.origin.x = 0.0f;
         frame.size.width = CGRectGetWidth(self.view.bounds);
         frame.size.height = CGRectGetHeight(self.view.bounds) - 44.0f;
+        if (@available(iOS 11.0, *))
+            frame.size.height -= self.view.safeAreaInsets.bottom;
         self.cropView.frame = frame;
     }
     
     [UIView setAnimationsEnabled:NO];
     self.toolbar.frame = [self frameForToolBarWithVerticalLayout:verticalLayout];
+    self.toolbar.backgroundView.frame = self.toolbar.bounds;
+    if (!verticalLayout) {
+        if (@available(iOS 11, *)) {
+            CGRect backFrame = self.toolbar.backgroundView.frame;
+            backFrame.size.height += self.view.safeAreaInsets.bottom;
+            self.toolbar.backgroundView.frame = backFrame;
+        }
+    }
     [self.toolbar setNeedsLayout];
     [UIView setAnimationsEnabled:YES];
 }

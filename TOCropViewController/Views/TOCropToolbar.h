@@ -24,6 +24,8 @@
 
 @interface TOCropToolbar : UIView
 
+@property (nonatomic, readonly) UIView * backgroundView;
+
 /* Button feedback handler blocks */
 @property (nonatomic, copy) void (^cancelButtonTapped)(void);
 @property (nonatomic, copy) void (^doneButtonTapped)(void);

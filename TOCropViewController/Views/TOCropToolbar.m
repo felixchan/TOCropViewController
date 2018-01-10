@@ -57,7 +57,10 @@
 }
 
 - (void)setup {
-    self.backgroundColor = [UIColor colorWithWhite:0.12f alpha:1.0f];
+    _backgroundView = [[UIView alloc] initWithFrame:self.bounds];
+    _backgroundView.backgroundColor = [UIColor colorWithWhite:0.12f alpha:1.0f];
+    _backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self addSubview:_backgroundView];
     
     _doneTextButton = [UIButton buttonWithType:UIButtonTypeSystem];
     _doneTextButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
