@@ -106,6 +106,7 @@
     [_rotateButton setImage:[TOCropToolbar rotateImage] forState:UIControlStateNormal];
     [_rotateButton addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_rotateButton];
+    _rotateButton.hidden = YES;
     
     _resetButton = [UIButton buttonWithType:UIButtonTypeSystem];
     _resetButton.contentMode = UIViewContentModeCenter;
