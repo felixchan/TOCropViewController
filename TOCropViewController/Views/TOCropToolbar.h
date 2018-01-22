@@ -41,6 +41,8 @@
 /* Disable the rotate button */
 @property (nonatomic, assign) BOOL rotateButtonHidden;
 
+@property (nonatomic, assign) BOOL resetButtonHidden;
+
 /* Enable the reset button */
 @property (nonatomic, assign) BOOL resetButtonEnabled;
 

@@ -243,6 +243,14 @@
     [self setNeedsLayout];
 }
 
+- (void)setResetButtonHidden:(BOOL)resetButtonHidden {
+    if (_resetButtonHidden == resetButtonHidden)
+        return;
+    
+    _resetButtonHidden = resetButtonHidden;
+    [self setNeedsLayout];
+}
+
 - (BOOL)resetButtonEnabled
 {
     return self.resetButton.enabled;

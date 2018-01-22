@@ -42,7 +42,6 @@ typedef NS_ENUM(NSInteger, TOCropViewControllerAspectRatio) {
 @interface TOCropViewController () <UIActionSheetDelegate, UIViewControllerTransitioningDelegate, TOCropViewDelegate>
 
 @property (nonatomic, readwrite) UIImage *image;
-@property (nonatomic, strong) TOCropToolbar *toolbar;
 @property (nonatomic, strong) TOCropView *cropView;
 @property (nonatomic, strong) UIView *snapshotView;
 @property (nonatomic, strong) TOCropViewControllerTransitioning *transitionController;

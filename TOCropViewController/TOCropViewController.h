@@ -21,6 +21,7 @@
 //  IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import "TOCropToolbar.h"
 
 @class TOCropViewController;
 
@@ -67,6 +68,8 @@
  The view controller's delegate that will return the resulting cropped image, as well as crop information
  */
 @property (nonatomic, weak) id<TOCropViewControllerDelegate> delegate;
+
+@property (nonatomic, strong) TOCropToolbar *toolbar;
 
 /**
  If true, when the user hits 'Done', a UIActivityController will appear before the view controller ends
